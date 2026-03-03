@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta <!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" co="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TebeMarket</title>
+<style>
+body{margin:0;font-family:Poppins,Arial,Sans-serif;background:#121212;color:#fff}
+.page{display:none;padding:10px;padding-bottom:90px}
+.page.active{display:block}
+
+/* HEADER */
+.header-fixed{position:sticky;top:0;z-index:10;background:#121212;padding:10px}
+
+.marketplace-tebemarket{background:#0055ff;border-radius:12px;padding:12px;text-align:center;box-shadow:0 6px 10px rgba(0,0,0,.4)}
+.marketplace-text{font-size:22px;font-weight:900}
+.tebemarket-text{font-size:26px;font-weight:900;color:#FFD700}
+
+/* SEARCH */
+.search-wrap{position:relative}
+.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#fff;font-weight:bold}
+.search-bar{width:100%;padding:10px 10px 10px 34px;margin:10px 0;border-radius:8px;border:none}
+.search-suggest{position:absolute;top:44px;left:0;right:0;background:#1f1f1f;border-radius:8px;overflow:hidden;display:none;z-index:20}
+.search-suggest div{padding:8px 10px;cursor:pointer}
+.search-suggest div:hover{background:#333}
+
+/* KOIN & DOMPET */
+.koin-container{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.koin-bar{background:#1f1f1f;padding:10px;border-radius:8px;font-weight:bold;cursor:pointer}
+
+/* ACTION */
+.action-buttons{display:flex;gap:10px;margin-bottom:10px}
+.action-buttons button{flex:1;padding:10px;border-radius:8px;border:none;background:#1a1a2e;color:#fff}
+
+/* KATEGORI */
+.category-bar{display:flex;gap:10px;overflow-x:auto;margin-bottom:10px}
+.category-item{text-align:center;font-size:12px;cursor:pointer;min-width:60px}
+.category-icon{width:45px;height:45px;border-radius:12px;background:#1f1f1f;display:flex;align-items:center;justify-content:center;font-size:20px;margin:auto}
+.category-item.active .category-icon{background:#0055ff}
+.category-other .category-icon{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:7px}
+.category-other .category-icon span{background:#fff;border-radius:3px}
+
+/* PROMO */
+.promo-bar{background:#0055ff;text-align:center;padding:10px;border-radius:8px;margin-bottom:10px;font-weight:bold}
+
+/* === IKLAN DUMMY === */
+.ad-banner{
+  background:#1f1f1f;
+  border:1px dashed #00ffcc;
+  border-radius:10px;
+  padding:14px;
+  text-align:center;
+  margin:10px 0;
+  font-weight:bold;
+  color:#00ffcc;
+}
+.native-ad{
+  background:#1f1f1f;
+  border:1px dashed #FFD700;
+}
+
+/* PRODUK */
+.products-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.product-card{background:#1f1f1f;border-radius:10px;padding:8px;cursor:pointer}
+.product-img{height:100px;background:#444;border-radius:8px;margin-bottom:6px;display:flex;align-items:center;justify-content:center}
+.product-name{font-size:14px;font-weight:bold}
+.product-price{color:#00ffcc;font-weight:bold}
+.product-meta{font-size:12px;color:#ccc}
+.product-actions{display:flex;gap:6px;margin-top:6px}
+.product-actions button{flex:1;border:none;border-radius:6px;padding:6px;font-size:12px;cursor:pointer}
+
+/* Tombol WhatsApp & Keranjang */
+.btn-wa{background:#25D366;color:#000;position:relative;overflow:hidden}
+.btn-cart{background:#0055ff;color:#fff;position:relative;overflow:hidden}
+
+/* Ripple khusus WA & Cart */
+.btn-wa::after,.btn-cart::after{
+ content:"";
+ position:absolute;
+ left:50%;top:50%;
+ width:0;height:0;
+ background:rgba(255,255,255,.4);
+ border-radius:50%;
+ transform:translate(-50%,-50%);
+ transition:width .3s ease,height .3s ease,opacity .6s ease;
+}
+.btn-wa:active::after,.btn-cart:active::after{
+ width:180%;
+ height:180%;
+ opacity:0;
+}
+.btn-wa:focus-visible,.btn-cart:focus-visible{
+ outline:none;
+ box-shadow:0 0 0 2px rgba(255,255,255,.9) inset;
+}
+
+/* NAVBAR */
+.navbar{position:fixed;bottom:0;width:100%;display:flex;justify-content:space-around;background:#1a1a2e;padding:10px 0;border-top:1px solid #333}
+.navbar button{background:none;border:none;color:#fff;font-size:14px}
+.navbar button.active{color:#00ffcc}
+
+/* CHAT LIST */
+.chat-list{display:flex;flex-direction:column;gap:10px}
+.chat-item{background:#1f1f1f;padding:10px;border-radius:8px;display:flex;gap:10px;cursor:pointer}
+.chat-img{width:40px;height:40px;border-radius:50%;background:#555}
+.chat-name{font-weight:bold}
+
+/* CHAT ROOM */
+.chat-room{display:flex;flex-direction:column;height:75vh}
+.chat-header{display:flex;align-items:center;gap:10px;margin-bottom:5px}
+.chat-messages{flex:1;background:#121c2e;border-radius:8px;padding:10px;overflow-y:auto}
+.chat-bubble{max-width:70%;padding:8px 12px;border-radius:12px;margin-bottom:5px}
+.chat-user{background:#0055ff;margin-left:auto}
+.chat-seller{background:#1f1f1f}
+.chat-input{display:flex;gap:5px;margin-top:5px}
+.chat-input input{flex:1;padding:8px;border-radius:8px;border:none}
+.chat-input button{padding:8px 12px;border-radius:8px;border:none;background:#0055ff;color:#fff}
+
+/* NOTIF */
+.notif-item{background:#1f1f1f;padding:10px;border-radius:8px;margin-bottom:8px}
+
+/* CART */
+.checkout-btn{width:100%;padding:10px;border:none;border-radius:8px;background:#0055ff;color:#fff}
+
+/* DETAIL */
+.detail-img{height:180px;background:#444;border-radius:12px;margin-bottom:10px;display:flex;align-items:center;justify-content:center}
+.rating{color:#FFD700}
+.back-btn{margin-bottom:10px}
+
+/* WALLET */
+.wallet-box{background:#1f1f1f;padding:12px;border-radius:10px;margin-bottom:12px}
+.wallet-pack{display:flex;justify-content:space-between;align-items:center;background:#121212;padding:10px;border-radius:8px;margin-bottom:8px}
+.wallet-pack button{background:#0055ff;border:none;border-radius:6px;color:#fff;padding:6px 10px}
+.pay-methods{display:flex;justify-content:center;gap:20px;margin-top:10px}
+.pay-method{background:#121212;padding:10px 14px;border-radius:8px;font-weight:bold}
+.history-item{background:#121212;padding:8px;border-radius:6px;margin-bottom:6px;font-size:13px}
+
+/* ===== TAP FEEDBACK (UMUM) ===== */
+.tap{position:relative;overflow:hidden;outline:none}
+.tap:focus-visible{box-shadow:0 0 0 2px rgba(0,136,255,.8) inset}
+.tap::after{
+ content:"";
+ position:absolute;
+ left:50%;top:50%;
+ width:0;height:0;
+ background:rgba(0,136,255,.35);
+ border-radius:50%;
+ transform:translate(-50%,-50%);
+ transition:width .3s ease,height .3s ease,opacity .6s ease;
+}
+.tap:active::after{
+ width:180%;
+ height:180%;
+ opacity:0;
+}
+
+<style>
+/* ================= BERANDA HERO ULTRA PREMIUM ================= */
+.beranda-hero-ultra{
+  background:
+    radial-gradient(circle at top,#2b4cff,#0b0f1c 60%),
+    linear-gradient(160deg,#0b0f1c,#05070f);
+  border-radius:26px;
+  padding:26px 20px;
+  position:relative;
+  overflow:hidden;
+  box-shadow:
+    0 0 0 3px rgba(0,136,255,.8),
+    0 0 28px rgba(0,136,255,.9),
+    0 0 60px rgba(0,136,255,.4),
+    0 18px 40px rgba(0,0,0,.7);
+  margin-bottom:18px;
+}
+
+/* Glow frame anim */
+.beranda-hero-ultra::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  border-radius:28px;
+  background:linear-gradient(120deg,#00f2fe,#4facfe,#00f2fe);
+  filter:blur(14px);
+  opacity:.85;
+  z-index:-1;
+  animation:borderGlow 4s linear infinite;
+}
+@keyframes borderGlow{
+  0%{filter:blur(14px) hue-rotate(0deg)}
+  100%{filter:blur(14px) hue-rotate(360deg)}
+}
+
+/* ===== TEXT ===== */
+.beranda-hero-title{
+  font-size:30px;
+  font-weight:1000;
+  letter-spacing:.5px;
+  margin-bottom:4px;
+  background:linear-gradient(180deg,#ffffff,#bcd7ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  text-shadow:
+    0 0 8px rgba(120,180,255,.9),
+    0 0 16px rgba(120,180,255,.6),
+    0 0 28px rgba(120,180,255,.4);
+}
+.beranda-hero-subtitle{
+  font-size:15px;
+  font-weight:700;
+  color:#cfe2ff;
+  text-shadow:
+    0 0 6px rgba(120,180,255,.6),
+    0 0 12px rgba(120,180,255,.35);
+  margin-bottom:14px;
+}
+
+/* ===== BUTTON ===== */
+.beranda-hero-btn{
+  margin-top:6px;
+  width:100%;
+  border:none;
+  border-radius:14px;
+  padding:13px;
+  font-weight:900;
+  font-size:14px;
+  background:linear-gradient(135deg,#00f2fe,#4facfe);
+  color:#000;
+  box-shadow:
+    0 0 12px rgba(0,242,254,.8),
+    0 0 26px rgba(0,242,254,.5),
+    0 10px 24px rgba(0,0,0,.45);
+}
+
+/* ================= TOKO ULTRA PREMIUM ================= */
+.toko-page{
+  padding:14px;
+  padding-bottom:130px;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at top,#1a2b5f,#0b0f1c 60%),
+    linear-gradient(180deg,#0b0f1c,#05070f);
+}
+
+/* ===== HERO ===== */
+.toko-hero-ultra{
+  background:linear-gradient(135deg,#6a11cb,#2575fc);
+  border-radius:26px;
+  padding:26px 18px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  box-shadow:
+    0 20px 45px rgba(0,0,0,.55),
+    inset 0 0 0 1px rgba(255,255,255,.12);
+  margin-bottom:18px;
+}
+.toko-hero-ultra::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at top right,rgba(255,255,255,.25),transparent 60%),
+    radial-gradient(circle at bottom left,rgba(0,0,0,.35),transparent 55%);
+}
+.toko-hero-badge{
+  display:inline-block;
+  background:rgba(255,255,255,.22);
+  backdrop-filter:blur(6px);
+  padding:6px 16px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
+  margin-bottom:10px;
+  box-shadow:0 6px 16px rgba(0,0,0,.25);
+}
+.toko-hero-title{
+  font-size:28px;
+  font-weight:900;
+  margin:6px 0;
+}
+.toko-hero-desc{
+  font-size:14px;
+  opacity:.9;
+  margin-bottom:16px;
+}
+.toko-hero-buttons{
+  display:flex;
+  gap:10px;
+}
+.toko-hero-buttons button{
+  flex:1;
+  border:none;
+  border-radius:14px;
+  padding:12px;
+  font-weight:900;
+  background:#fff;
+  color:#111;
+  box-shadow:0 6px 18px rgba(0,0,0,.35);
+}
+.toko-hero-buttons button:last-child{
+  background:rgba(255,255,255,.18);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.35);
+}
+
+/* ===== STATUS ===== */
+.toko-status-ultra{
+  background:linear-gradient(135deg,#121a33,#0b0f1c);
+  border-radius:20px;
+  padding:16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  box-shadow:
+    0 14px 32px rgba(0,0,0,.55),
+    inset 0 0 0 1px rgba(255,255,255,.08);
+  margin-bottom:20px;
+}
+.toko-status-text b{font-size:14px}
+.toko-status-text p{font-size:12px;opacity:.75;margin-top:3px}
+.toko-status-ultra button{
+  border:none;
+  border-radius:12px;
+  padding:10px 18px;
+  font-weight:900;
+  background:linear-gradient(135deg,#00f2fe,#4facfe);
+  color:#000;
+  box-shadow:0 6px 16px rgba(0,0,0,.35);
+}
+
+/* ===== FEATURE GRID ===== */
+.toko-feature-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+  margin-bottom:20px;
+}
+.toko-feature-card{
+  background:
+    linear-gradient(160deg,#1b2145,#0d1224);
+  border-radius:22px;
+  padding:18px 12px;
+  text-align:center;
+  box-shadow:
+    0 16px 34px rgba(0,0,0,.6),
+    inset 0 0 0 1px rgba(255,255,255,.08);
+  position:relative;
+  overflow:hidden;
+}
+.toko-feature-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at top left,rgba(255,255,255,.14),transparent 55%);
+}
+.toko-feature-icon{
+  font-size:30px;
+  margin-bottom:6px;
+}
+.toko-feature-title{
+  font-weight:900;
+  font-size:14px;
+}
+.toko-feature-desc{
+  font-size:12px;
+  opacity:.8;
+}
+
+/* ===== ACTION LIST ===== */
+.toko-action-list-ultra{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  margin-bottom:26px;
+}
+.toko-action-item-ultra{
+  background:linear-gradient(135deg,#0f1428,#070a14);
+  border-radius:20px;
+  padding:16px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  box-shadow:
+    0 16px 38px rgba(0,0,0,.65),
+    inset 0 0 0 1px rgba(255,255,255,.07);
+  position:relative;
+  overflow:hidden;
+}
+.toko-action-item-ultra::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at right,rgba(255,255,255,.12),transparent 60%);
+}
+.toko-action-icon-ultra{
+  font-size:22px;
+  background:linear-gradient(135deg,#00f2fe,#4facfe);
+  color:#000;
+  width:44px;
+  height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:14px;
+  font-weight:900;
+  box-shadow:0 6px 16px rgba(0,0,0,.35);
+}
+.toko-action-text-ultra b{font-size:14px}
+.toko-action-text-ultra p{
+  font-size:12px;
+  opacity:.75;
+  margin-top:2px;
+}
+.toko-action-arrow-ultra{
+  margin-left:auto;
+  font-size:22px;
+  opacity:.6;
+}
+
+/* ===== FOOTER CTA ===== */
+.toko-footer-ultra{
+  background:linear-gradient(135deg,#ff512f,#f09819);
+  border-radius:26px;
+  padding:24px 18px;
+  text-align:center;
+  box-shadow:
+    0 20px 45px rgba(0,0,0,.6),
+    inset 0 0 0 1px rgba(255,255,255,.12);
+}
+.toko-footer-ultra h3{
+  font-size:22px;
+  font-weight:900;
+  margin-bottom:6px;
+}
+.toko-footer-ultra p{
+  font-size:13px;
+  opacity:.9;
+  margin-bottom:14px;
+}
+.toko-footer-ultra button{
+  border:none;
+  border-radius:14px;
+  padding:12px 20px;
+  font-weight:900;
+  background:#fff;
+  color:#111;
+  box-shadow:0 6px 18px rgba(0,0,0,.35);
+}
+</style>
+</style>
+</head>
+<body>
+
+<!-- ================= BERANDA ================= -->
+<div id="home" class="page active">
+
+<div class="header-fixed">
+<!-- ===== HEADER TEBEMARKET PREMIUM ===== -->
+<div class="header-tebemarket">
+  <div class="marketplace-tebemarket tap cosmic-diamond">
+    <div class="marketplace-text">🏆 Marketplace Pekalongan</div>
+    <div class="tebemarket-text">TebeMarket</div>
+  </div>
+</div>
+
+<style>
+.header-tebemarket{
+  padding:12px;
+  position:sticky;
+  top:0;
+  z-index:999;
+  background:linear-gradient(180deg,#060606,#141414,#060606);
+  border-bottom:1px solid rgba(255,215,0,.35);
+  box-shadow:
+    0 4px 12px rgba(255,215,0,.25),
+    0 10px 25px rgba(0,0,0,.8);
+}
+
+.marketplace-tebemarket{
+  border-radius:22px;
+  padding:22px 18px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(180deg,#151515,#0f0f0f);
+}
+
+/* ===== PREMIUM CARD EFFECT ===== */
+.cosmic-diamond{
+  box-shadow:
+    0 0 18px rgba(255,215,0,.25),
+    inset 0 0 0 1px rgba(255,215,0,.18);
+}
+
+.cosmic-diamond::before{
+  content:"";
+  position:absolute;
+  inset:-60%;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.25),transparent);
+  animation:shine 4s infinite linear;
+}
+
+@keyframes shine{
+  from{transform:translateX(-120%)}
+  to{transform:translateX(120%)}
+}
+
+/* ===== TEXT ===== */
+.marketplace-text{
+  font-weight:800;
+  font-size:20px;
+  color:#eaeaea;
+  letter-spacing:.6px;
+  text-shadow:
+    0 1px 2px rgba(0,0,0,.6);
+}
+
+.tebemarket-text{
+  font-weight:900;
+  font-size:38px;
+  color:#FFD700;
+  letter-spacing:1.4px;
+  text-shadow:
+    0 1px 0 #fff6c0,
+    0 2px 4px rgba(0,0,0,.7),
+    0 0 14px rgba(255,215,0,.45);
+}
+</style>
+
+  <div class="search-wrap tap">
+    <span class="search-icon">🔍</span>
+    <input id="searchInput" class="search-bar" placeholder="Cari produk..." autocomplete="off">
+    <div id="searchSuggest" class="search-suggest"></div>
+  </div>
+
+  <div class="koin-container">
+    <div class="koin-bar tap" id="koinSaya">💰 Koin Saya: 0</div>
+    <div class="koin-bar tap" onclick="openPage('wallet')">💳 Dompet Koin</div>
+  </div>
+
+  <div class="action-buttons">
+    <button class="tap" onclick="checkin()">🎁 Check-in Harian</button>
+    <button class="tap" onclick="watchAd()">📺 Nonton Iklan</button>
+  </div>
+
+  <div class="category-bar" id="categoryBar"></div>
+
+  <div class="promo-bar">🔥 Promo Hari Ini di Marketplace Pekalongan!</div>
+
+  <!-- BANNER ADS -->
+  <div class="ad-banner">📢 BANNER ADS</div>
+</div>
+
+<div id="products" class="products-grid"></div>
+
+</div>
+
+<!-- ================= WALLET ================= -->
+<div id="wallet" class="page">
+<button class="back-btn tap" onclick="backToHome()">⬅ Kembali</button>
+<h3>💳 Dompet Koin</h3>
+
+<div class="wallet-box">
+  <b>Saldo Koin Kamu:</b> <span id="walletBalance">0</span>
+</div>
+
+<div class="wallet-box">
+  <b>Top Up Koin</b><br><br>
+
+  <div class="wallet-pack tap" onclick="topUp(50)">50 koin - Rp 5.000</div>
+  <div class="wallet-pack tap" onclick="topUp(100)">100 koin - Rp 10.000</div>
+  <div class="wallet-pack tap" onclick="topUp(250)">250 koin - Rp 25.000</div>
+  <div class="wallet-pack tap" onclick="topUp(500)">500 koin - Rp 50.000</div>
+  <div class="wallet-pack tap" onclick="topUp(1000)">1000 koin - Rp 100.000</div>
+  <div class="wallet-pack tap" onclick="topUp(5000)">5000 koin - Rp 500.000</div>
+
+  <div class="pay-methods">
+    <div class="pay-method tap">📱 QRIS</div>
+    <div class="pay-method tap">💸 DANA</div>
+  </div>
+</div>
+
+<div class="wallet-box">
+  <b>Riwayat</b>
+  <div id="walletHistory"></div>
+</div>
+</div>
+
+<!-- ================= DETAIL PRODUK ================= -->
+<div id="detail" class="page">
+<button class="back-btn tap" onclick="backToHome()">⬅ Kembali</button>
+<div class="detail-img">📦</div>
+<div id="detailName"></div>
+<div id="detailPrice"></div>
+<div id="detailMeta"></div>
+<br>
+<button class="tap" onclick="openChat('Penjual Produk')">💬 Chat Penjual</button>
+<button class="tap" onclick="openWhatsApp()">📲 WhatsApp Penjual</button>
+<button class="tap" onclick="buyWithKoin()">🪙 Bayar Pakai Koin</button>
+<button class="tap" onclick="boostProduct()">🚀 Boost Produk (20 koin/24h)</button>
+</div>
+
+<!-- ================= CHAT LIST ================= -->
+<div id="chat" class="page">
+<div class="page-header">Chat</div>
+<div class="chat-list" id="chatList"></div>
+</div>
+
+<!-- ================= CHAT ROOM ================= -->
+<div id="chatRoom" class="page">
+<button class="tap" onclick="openPage('chat')">⬅</button>
+<div class="chat-room">
+  <div class="chat-header">
+    <div class="chat-img"></div>
+    <div id="chatSellerName"></div>
+  </div>
+  <div id="chatMessages" class="chat-messages"></div>
+  <div class="chat-input">
+    <input id="chatInput" placeholder="Ketik pesan...">
+    <button class="tap" onclick="sendMessage()">Kirim</button>
+  </div>
+</div>
+</div>
+
+<!-- ================= NOTIF ================= -->
+<div id="notif" class="page">
+<div class="page-header">Notifikasi</div>
+<div class="notif-item">📦 Pesanan kamu sedang diproses</div>
+<div class="notif-item" id="notifKoin">💰 Saldo bertambah</div>
+</div>
+
+<!-- ================= CART ================= -->
+<div id="cart" class="page">
+<div class="page-header">Keranjang</div>
+<p>Total: Rp 0</p>
+<button class="checkout-btn tap">Checkout</button>
+</div>
+
+<!-- ================= TOKO ================= -->
+<div id="store" class="page toko-page">
+
+  <!-- HERO ULTRA -->
+  <div class="toko-hero-ultra tap">
+    <div class="toko-hero-badge">🏆 Premium Seller Area</div>
+    <h2 class="toko-hero-title">🏪 Toko Saya</h2>
+    <div class="toko-hero-desc">
+      Bangun toko lokal profesional dengan tampilan kelas marketplace nasional 🚀
+    </div>
+    <div class="toko-hero-buttons">
+      <button class="tap">🚀 Daftar Jadi Penjual</button>
+      <button class="tap">🎨 Kelola Toko</button>
+    </div>
+  </div>
+
+  <!-- STATUS -->
+  <div class="toko-status-ultra tap">
+    <div class="toko-status-text">
+      <b>Status Toko</b>
+      <p>Belum aktif — lengkapi profil tokomu</p>
+    </div>
+    <button class="tap">Aktifkan</button>
+  </div>
+
+  <!-- FEATURE GRID -->
+  <div class="toko-feature-grid">
+    <div class="toko-feature-card tap">
+      <div class="toko-feature-icon">📦</div>
+      <div class="toko-feature-title">Produk Saya</div>
+      <div class="toko-feature-desc">Tambah & kelola produk</div>
+    </div>
+
+    <div class="toko-feature-card tap">
+      <div class="toko-feature-icon">🧾</div>
+      <div class="toko-feature-title">Pesanan</div>
+      <div class="toko-feature-desc">Pantau order masuk</div>
+    </div>
+
+    <div class="toko-feature-card tap">
+      <div class="toko-feature-icon">📊</div>
+      <div class="toko-feature-title">Statistik</div>
+      <div class="toko-feature-desc">Performa tokomu</div>
+    </div>
+
+    <div class="toko-feature-card tap">
+      <div class="toko-feature-icon">💬</div>
+      <div class="toko-feature-title">Chat Pelanggan</div>
+      <div class="toko-feature-desc">Respon pembeli cepat</div>
+    </div>
+  </div>
+
+  <!-- ACTION -->
+  <div class="toko-action-list-ultra">
+    <div class="toko-action-item-ultra tap">
+      <div class="toko-action-icon-ultra">🏪</div>
+      <div class="toko-action-text-ultra">
+        <b>Profil Toko</b>
+        <p>Atur banner, logo & deskripsi</p>
+      </div>
+      <div class="toko-action-arrow-ultra">›</div>
+    </div>
+
+    <div class="toko-action-item-ultra tap">
+      <div class="toko-action-icon-ultra">🚚</div>
+      <div class="toko-action-text-ultra">
+        <b>Pengiriman</b>
+        <p>Atur kurir & ongkir</p>
+      </div>
+      <div class="toko-action-arrow-ultra">›</div>
+    </div>
+
+    <div class="toko-action-item-ultra tap">
+      <div class="toko-action-icon-ultra">🎯</div>
+      <div class="toko-action-text-ultra">
+        <b>Promosi</b>
+        <p>Naikkan visibilitas tokomu</p>
+      </div>
+      <div class="toko-action-arrow-ultra">›</div>
+    </div>
+
+    <div class="toko-action-item-ultra tap">
+      <div class="toko-action-icon-ultra">⭐</div>
+      <div class="toko-action-text-ultra">
+        <b>Rating & Ulasan</b>
+        <p>Bangun kepercayaan pembeli</p>
+      </div>
+      <div class="toko-action-arrow-ultra">›</div>
+    </div>
+  </div>
+
+  <!-- FOOTER CTA -->
+  <div class="toko-footer-ultra tap">
+    <h3>Siap jadi penjual sukses? 💎</h3>
+    <p>Mulai sekarang dan bangun brand tokomu di TebeMarket.</p>
+    <button class="tap">🚀 Mulai Sekarang</button>
+  </div>
+
+</div>
+
+<!-- ================= NAVBAR ================= -->
+<div class="navbar">
+  <button class="tap active" onclick="openPage('home')">🏠 Beranda</button>
+  <button class="tap" onclick="openPage('notif')">🔔 Notif</button>
+  <button class="tap" onclick="openPage('chat')">💬 Chat</button>
+  <button class="tap" onclick="openPage('cart')">🛒 Keranjang</button>
+<button class="tap" onclick="openPage('store')">🏪 Toko</button>
+  <button class="tap" onclick="openPage('account')">👤 Akun</button>
+</div>
+<script>
+/* ================= KOIN SYSTEM (PERSISTENT) ================= */
+let koin = parseInt(localStorage.getItem("koin")) || 100;
+let walletHistory = JSON.parse(localStorage.getItem("walletHistory")) || [];
+
+function saveData(){
+  localStorage.setItem("koin", koin);
+  localStorage.setItem("walletHistory", JSON.stringify(walletHistory));
+}
+
+function updateKoin(){
+  document.getElementById("koinSaya").innerText = `💰 Koin Saya: ${koin}`;
+  document.getElementById("walletBalance").innerText = koin;
+  saveData();
+}
+
+function addHistory(text){
+  walletHistory.unshift(text);
+  saveData();
+  renderWalletHistory();
+}
+
+function renderWalletHistory(){
+  const div = document.getElementById("walletHistory");
+  if(!div) return;
+  div.innerHTML="";
+  walletHistory.forEach(item=>{
+    const el=document.createElement("div");
+    el.className="history-item";
+    el.innerText=item;
+    div.appendChild(el);
+  });
+}
+
+function checkin(){
+  koin += 10;
+  addHistory("🎁 Check-in Harian +10 koin");
+  alert("Check-in berhasil! +10 koin");
+  updateKoin();
+}
+
+function watchAd(){
+  koin += 5;
+  addHistory("📺 Nonton Iklan +5 koin");
+  alert("Iklan selesai! +5 koin");
+  updateKoin();
+}
+
+function topUp(amount){
+  koin += amount;
+  addHistory(`💳 Top Up +${amount} koin`);
+  alert(`Top Up berhasil! +${amount} koin`);
+  updateKoin();
+}
+
+function buyWithKoin(){
+  let price = 20;
+  if(koin>=price){
+    koin -= price;
+    addHistory(`🪙 Pembelian Produk -${price} koin`);
+    alert("Pembelian berhasil!");
+    updateKoin();
+  }else alert("Koin tidak cukup!");
+}
+
+function boostProduct(){
+  let boostCost = 20;
+  if(koin>=boostCost){
+    koin -= boostCost;
+    addHistory(`🚀 Boost Produk -${boostCost} koin`);
+    alert("Produk berhasil di-boost!");
+    updateKoin();
+  }else alert("Koin tidak cukup!");
+}
+
+/* ================= PAGE NAV ================= */
+function openPage(id){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  document.querySelectorAll(".navbar button").forEach(b=>b.classList.remove("active"));
+  if(id==="home") document.querySelectorAll(".navbar button")[0].classList.add("active");
+  if(id==="notif") document.querySelectorAll(".navbar button")[1].classList.add("active");
+  if(id==="chat") document.querySelectorAll(".navbar button")[2].classList.add("active");
+  if(id==="cart") document.querySelectorAll(".navbar button")[3].classList.add("active");
+  if(id==="store") document.querySelectorAll(".navbar button")[4].classList.add("active");
+  if(id==="account") document.querySelectorAll(".navbar button")[5].classList.add("active");
+}
+
+function backToHome(){
+  openPage("home");
+}
+
+/* ================= PRODUK & KATEGORI ================= */
+const products = [
+  {id:1,name:"Pulsa Telkomsel 10K",price:"Rp 11.000",rating:4.8,sold:120,category:"Pulsa"},
+  {id:2,name:"Game Voucher ML",price:"Rp 20.000",rating:4.9,sold:340,category:"Game"},
+  {id:3,name:"Sepatu Sneakers",price:"Rp 199.000",rating:4.7,sold:78,category:"Fashion"},
+  {id:4,name:"Burger Jumbo",price:"Rp 25.000",rating:4.6,sold:56,category:"Makanan"},
+  {id:5,name:"Kopi Literan",price:"Rp 18.000",rating:4.5,sold:90,category:"Minuman"},
+  {id:6,name:"Kaos Polos",price:"Rp 59.000",rating:4.8,sold:210,category:"Fashion"}
+];
+
+const categories = [
+  {name:"Game",icon:"🎮"},
+  {name:"Pulsa",icon:"📱"},
+  {name:"Fashion",icon:"👕"},
+  {name:"Makanan",icon:"🍔"},
+  {name:"Minuman",icon:"🥤"},
+  {name:"Lainnya",icon:"🛍️"}
+];
+
+let currentCategory=null;
+let selectedProduct=null;
+
+function renderCategories(){
+  const bar=document.getElementById("categoryBar");
+  bar.innerHTML="";
+  categories.forEach(cat=>{
+    const div=document.createElement("div");
+    div.className="category-item tap"+(cat.icon==="grid"?" category-other":"");
+    if(cat.icon==="grid"){
+      div.innerHTML=`<div class="category-icon">
+        <span></span><span></span>
+        <span></span><span></span>
+      </div><div>${cat.name}</div>`;
+    }else{
+      div.innerHTML=`<div class="category-icon">${cat.icon}</div><div>${cat.name}</div>`;
+    }
+    div.onclick=()=>selectCategory(cat.name,div);
+    bar.appendChild(div);
+  });
+}
+
+function renderProducts(list){
+  const grid=document.getElementById("products");
+  grid.innerHTML="";
+  list.forEach((p,i)=>{
+    const card=document.createElement("div");
+    card.className="product-card tap";
+    card.innerHTML=`
+      <div class="product-img">📦</div>
+      <div class="product-name">${p.name}</div>
+      <div class="product-price">${p.price}</div>
+      <div class="product-meta">⭐ ${p.rating} | Terjual ${p.sold}</div>
+      <div class="product-actions">
+        <button class="btn-wa" onclick="event.stopPropagation();openWhatsApp()">📲 WhatsApp</button>
+        <button class="btn-cart" onclick="event.stopPropagation();addToCart('${p.name}')">🛒 Keranjang</button>
+      </div>
+    `;
+    card.onclick=()=>openDetail(p);
+    grid.appendChild(card);
+
+    /* NATIVE ADS setiap 6 produk */
+    if((i+1)%6===0){
+      const ad=document.createElement("div");
+      ad.className="product-card native-ad";
+      ad.innerHTML=`
+        <div class="product-img">🔥 Sponsor</div>
+        <div class="product-name">Iklan Produk Sponsor</div>
+        <div class="product-price">Klik untuk lihat</div>
+      `;
+      grid.appendChild(ad);
+    }
+  });
+}
+
+function selectCategory(cat,el){
+  document.querySelectorAll(".category-item").forEach(c=>c.classList.remove("active"));
+  if(currentCategory===cat){
+    currentCategory=null;
+    renderProducts(products);
+  }else{
+    currentCategory=cat;
+    el.classList.add("active");
+    renderProducts(products.filter(p=>p.category===cat));
+  }
+}
+
+/* ================= SEARCH + AUTOCOMPLETE ================= */
+const searchInput=document.getElementById("searchInput");
+const searchSuggest=document.getElementById("searchSuggest");
+
+searchInput.addEventListener("input",()=>{
+  const q=searchInput.value.toLowerCase().trim();
+  if(!q){
+    searchSuggest.style.display="none";
+    renderProducts(currentCategory?products.filter(p=>p.category===currentCategory):products);
+    return;
+  }
+  const filtered=products.filter(p=>p.name.toLowerCase().includes(q));
+  renderProducts(filtered);
+
+  searchSuggest.innerHTML="";
+  const names=[...new Set(filtered.map(p=>p.name))];
+  if(names.length===0){
+    searchSuggest.style.display="none";
+    return;
+  }
+  names.forEach(n=>{
+    const d=document.createElement("div");
+    d.innerText=n;
+    d.onclick=()=>{
+      searchInput.value=n;
+      searchSuggest.style.display="none";
+      renderProducts(products.filter(p=>p.name===n));
+    };
+    searchSuggest.appendChild(d);
+  });
+  searchSuggest.style.display="block";
+});
+
+document.addEventListener("click",(e)=>{
+  if(!searchInput.contains(e.target)&&!searchSuggest.contains(e.target)){
+    searchSuggest.style.display="none";
+  }
+});
+
+/* ================= WHATSAPP SELLER ================= */
+function openWhatsApp(){
+  let phone="6281234567890";
+  let msg=encodeURIComponent("Halo, saya tertarik dengan produk di TebeMarket.");
+  window.open(`https://wa.me/${phone}?text=${msg}`);
+}
+
+/* ================= CART ================= */
+let cartItems=[];
+function addToCart(name){
+  cartItems.push(name);
+  alert(name+" masuk keranjang");
+}
+
+/* ================= CHAT ================= */
+const chatSellers=["Toko Pulsa Jaya","Game Store Pekalongan","Fashion Trendy","Burger Mantap"];
+let currentChatSeller="";
+
+function renderChatList(){
+  const list=document.getElementById("chatList");
+  list.innerHTML="";
+  chatSellers.forEach(name=>{
+    const item=document.createElement("div");
+    item.className="chat-item tap";
+    item.innerHTML=`
+      <div class="chat-img"></div>
+      <div>
+        <div class="chat-name">${name}</div>
+        <div style="font-size:12px;color:#ccc">Klik untuk chat</div>
+      </div>
+    `;
+    item.onclick=()=>openChat(name);
+    list.appendChild(item);
+  });
+}
+
+function openChat(name){
+  currentChatSeller=name;
+  openPage("chatRoom");
+  document.getElementById("chatSellerName").innerText=name;
+  document.getElementById("chatMessages").innerHTML="";
+}
+
+function sendMessage(){
+  const input=document.getElementById("chatInput");
+  if(!input.value)return;
+  const msg=document.createElement("div");
+  msg.className="chat-bubble chat-user";
+  msg.innerText=input.value;
+  document.getElementById("chatMessages").appendChild(msg);
+  input.value=""
+  
+  setTimeout(()=>{
+    const reply=document.createElement("div");
+    reply.className="chat-bubble chat-seller";
+    reply.innerText="Halo, ada yang bisa saya bantu?";
+    document.getElementById("chatMessages").appendChild(reply);
+  },600);
+}
+
+/* INIT */
+renderCategories();
+renderProducts(products);
+renderChatList();
+renderWalletHistory();
+updateKoin();
+
+function openAccountSection(type){
+  openPage("accountDetail");
+  const title=document.getElementById("accountDetailTitle");
+  const content=document.getElementById("accountDetailContent");
+
+  if(type==="profile"){
+    title.innerText="👤 Profil Saya";
+    content.innerHTML=`
+      <b>Nama:</b> Pengguna TebeMarket<br>
+      <b>Email:</b> user@email.com<br>
+      <b>No HP:</b> 08xxxxxxxxxx<br><br>
+      <button class="tap">✏ Edit Profil</button>
+    `;
+  }
+
+  if(type==="security"){
+    title.innerText="🔐 Keamanan Akun";
+    content.innerHTML=`
+      • Ganti password<br>
+      • Aktifkan verifikasi 2 langkah<br>
+      • Logout dari semua perangkat
+    `;
+  }
+
+  if(type==="privacy"){
+  title.innerText="📄 Kebijakan Privasi";
+  content.innerHTML=`
+    <h4>1. Informasi yang Kami Kumpulkan</h4>
+    Kami mengumpulkan data pengguna untuk menyediakan layanan marketplace:
+    <ul>
+      <li><b>Informasi pribadi:</b> nama, alamat email, nomor telepon</li>
+      <li><b>Informasi transaksi:</b> riwayat pembelian, top-up koin, penjualan produk</li>
+      <li><b>Informasi penggunaan:</b> pencarian produk, interaksi chat, kategori favorit</li>
+    </ul>
+
+    <h4>2. Tujuan Pengumpulan Data</h4>
+    Data pengguna digunakan untuk:
+    <ul>
+      <li>Memfasilitasi transaksi antara penjual dan pembeli</li>
+      <li>Menyediakan fitur koin, profil, dan chat dalam aplikasi</li>
+      <li>Meningkatkan keamanan dan mencegah penipuan</li>
+      <li>Analisis internal untuk peningkatan layanan</li>
+    </ul>
+
+    <h4>3. Hak Pengguna</h4>
+    Pengguna berhak:
+    <ul>
+      <li>Mengakses dan memperbarui informasi pribadi</li>
+      <li>Meminta penghapusan atau pembatasan penggunaan data</li>
+      <li>Menolak pengiriman promosi atau notifikasi tertentu</li>
+    </ul>
+
+    <h4>4. Penyimpanan & Keamanan Data</h4>
+    <ul>
+      <li>Data pengguna disimpan di server aman dan terenkripsi</li>
+      <li>Kami menggunakan protokol standar untuk mencegah akses tidak sah</li>
+      <li>TebeMarket tidak bertanggung jawab atas kerugian akibat kebocoran di luar kontrol kami</li>
+    </ul>
+
+    <h4>5. Berbagi Data</h4>
+    <ul>
+      <li>Kami tidak menjual data pribadi ke pihak ketiga</li>
+      <li>Data dapat dibagikan jika diwajibkan hukum atau untuk perlindungan keamanan pengguna</li>
+    </ul>
+
+    <h4>6. Cookie & Teknologi Serupa</h4>
+    Aplikasi menggunakan penyimpanan lokal dan cookie untuk:
+    <ul>
+      <li>Mengingat preferensi pengguna</li>
+      <li>Meningkatkan pengalaman penggunaan aplikasi</li>
+    </ul>
+
+    <h4>7. Anak-anak</h4>
+    TebeMarket tidak ditujukan untuk anak di bawah 13 tahun. Kami tidak sengaja mengumpulkan data anak-anak. Jika terdeteksi, data akan dihapus.
+
+    <h4>8. Perubahan Kebijakan</h4>
+    Kami dapat memperbarui Kebijakan Privasi sewaktu-waktu. Perubahan akan diumumkan melalui aplikasi. Penggunaan aplikasi setelah pembaruan dianggap menyetujui perubahan kebijakan.
+
+    <h4>9. Kontak</h4>
+    Untuk pertanyaan terkait Kebijakan Privasi, silakan hubungi:<br>
+    📧 <b>support@tebemarket.id</b>
+  `;
+}
+
+  if(type==="terms"){
+  title.innerText="📜 Syarat & Ketentuan";
+  content.innerHTML=`
+    <h4>1. Tentang Layanan</h4>
+    TebeMarket adalah platform marketplace digital yang mempertemukan penjual dan pembeli.<br>
+    <b>Penting:</b> TebeMarket bukan pihak dalam transaksi jual beli dan tidak menyediakan layanan pembayaran, pengiriman, atau penyimpanan barang. Semua transaksi, pembayaran, dan pengiriman dilakukan berdasarkan kesepakatan langsung antara penjual dan pembeli.<br>
+    TebeMarket hanya menyediakan:
+    <ul>
+      <li>Sarana pencarian dan promosi produk</li>
+      <li>Fitur komunikasi antara penjual dan pembeli</li>
+      <li>Fitur manajemen akun dan koin pengguna</li>
+    </ul>
+
+    <h4>2. Sistem Transaksi</h4>
+    Transaksi dilakukan langsung antara penjual dan pembeli.<br>
+    Metode transaksi termasuk, tetapi tidak terbatas pada:
+    <ul>
+      <li>COD (Cash On Delivery) di lokasi yang disepakati</li>
+      <li>Pertemuan di rumah pembeli, rumah penjual, atau lokasi lain</li>
+      <li>Pembayaran tunai atau metode lain yang disetujui kedua pihak</li>
+    </ul>
+    TebeMarket tidak menerima atau memproses pembayaran apapun.<br>
+    Semua risiko yang timbul dari transaksi (penipuan, kerugian, atau sengketa) sepenuhnya menjadi tanggung jawab penjual dan pembeli.
+
+    <h4>3. Tanggung Jawab Pengguna</h4>
+    Pengguna bertanggung jawab atas:
+    <ul>
+      <li>Keaslian produk yang dijual</li>
+      <li>Keamanan akun dan informasi pribadi</li>
+      <li>Kesepakatan harga, pembayaran, dan pengiriman</li>
+      <li>Risiko penipuan atau kerugian dari transaksi</li>
+    </ul>
+    TebeMarket tidak bertanggung jawab atas kerugian, kerusakan, atau sengketa yang timbul akibat transaksi antar pengguna.
+
+    <h4>4. Data & Privasi Pengguna</h4>
+    <b>4.1 Data yang Dikumpulkan</b><br>
+    TebeMarket mengumpulkan data pengguna berikut:
+    <ul>
+      <li>Nama dan informasi kontak (misal nomor telepon)</li>
+      <li>Aktivitas penggunaan aplikasi (pencarian, transaksi, interaksi)</li>
+      <li>Data akun untuk manajemen koin dan fitur internal</li>
+    </ul>
+    <b>4.2 Tujuan Penggunaan Data</b><br>
+    <ul>
+      <li>Memfasilitasi interaksi penjual dan pembeli</li>
+      <li>Analisis internal untuk peningkatan layanan</li>
+      <li>Pencegahan penipuan dan keamanan platform</li>
+    </ul>
+    <b>4.3 Hak Pengguna</b><br>
+    Pengguna berhak:
+    <ul>
+      <li>Mengakses data pribadi yang disimpan</li>
+      <li>Meminta koreksi, penghapusan, atau pembatasan penggunaan data</li>
+    </ul>
+    <b>4.4 Berbagi Data</b><br>
+    Data tidak dijual atau dibagikan ke pihak ketiga tanpa persetujuan.<br>
+    Data dapat dibagikan jika diwajibkan oleh hukum atau untuk keamanan pengguna.<br>
+    <b>4.5 Keamanan Data</b><br>
+    TebeMarket menggunakan standar keamanan umum untuk melindungi data pengguna dari akses, penyalahgunaan, atau kebocoran yang tidak sah.
+
+    <h4>5. Konten & Aktivitas Terlarang</h4>
+    Pengguna dilarang melakukan:
+    <ul>
+      <li>Menjual barang ilegal atau melanggar hukum</li>
+      <li>Menipu, memanipulasi, atau menyalahgunakan layanan</li>
+      <li>Mengunggah konten palsu, menyesatkan, atau merugikan pihak lain</li>
+      <li>Mengganggu pengalaman pengguna lain atau merusak sistem</li>
+    </ul>
+
+    <h4>6. Sanksi & Penegakan</h4>
+    TebeMarket berhak, tanpa pemberitahuan, untuk:
+    <ul>
+      <li>Membatasi akses atau fitur pengguna</li>
+      <li>Menangguhkan sementara akun pengguna</li>
+      <li>Menghapus akun pengguna yang melanggar TOS</li>
+    </ul>
+    Tindakan dapat diambil berdasarkan:
+    <ul>
+      <li>Laporan pengguna lain</li>
+      <li>Pelanggaran kebijakan</li>
+      <li>Aktivitas mencurigakan atau merugikan pihak lain</li>
+    </ul>
+
+    <h4>7. Perubahan Kebijakan</h4>
+    TebeMarket dapat memperbarui TOS dan Privacy Policy sewaktu-waktu.<br>
+    Pengguna dianggap menyetujui perubahan kebijakan dengan tetap menggunakan aplikasi setelah pembaruan.
+
+    <h4>8. Disclaimer</h4>
+    TebeMarket tidak menjamin keakuratan informasi produk, keandalan penjual, atau kualitas barang.<br>
+    Semua transaksi dilakukan atas risiko pengguna sendiri.<br>
+    TebeMarket tidak bertanggung jawab atas kehilangan, kerusakan, atau penipuan yang terjadi di luar kontrol platform.
+
+    <h4>9. Komunikasi & Dukungan</h4>
+    Untuk pertanyaan, pengaduan, atau bantuan terkait kebijakan:<br>
+    📧 <b>support@tebemarket.id</b>
+  `;
+}
+
+  if(type==="about"){
+    title.innerText="ℹ Tentang TebeMarket";
+    content.innerHTML=`
+      TebeMarket adalah marketplace lokal Pekalongan untuk mendukung UMKM.
+      Versi 1.0.0<br><br>
+      © 2026 TebeMarket
+    `;
+  }
+}
+
+function logout(){
+  if(confirm("Yakin ingin keluar akun?")){
+    alert("Berhasil logout");
+    openPage("home");
+  }
+}
+</script>
+
+
+<!-- ================= ACCOUNT DETAIL ================= -->
+<div id="accountDetail" class="page">
+  <button class="back-btn tap" onclick="openPage('account')">⬅ Kembali</button>
+  <h3 id="accountDetailTitle"></h3>
+  <div id="accountDetailContent" style="line-height:1.6"></div>
+</div>
+</body>
+</html> 
